@@ -4,5 +4,6 @@
     <string name="app_name">RobWechatMoney</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="service_description">微信抢红包服务，用于实现微信红包监控</string>
+     <string name="rob_money">开启微信抢红包服务</string>
 </resources>
