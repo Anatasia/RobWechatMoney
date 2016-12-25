@@ -110,10 +110,14 @@ public class AsService extends AccessibilityService{
 			String className = event.getClassName().toString();
 			Log.i(TAG, "窗口："+className);
 			if(className.equals("com.tencent.mm.ui.LauncherUI")){//聊天页面
-				getRedbag();//领取红包
+				getRedbag();//第一步领取红包
 			}else if(className.equals("com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyReceiveUI")){//打开红包
 				//点中红包，下一步是拆开红包
-				openRedbag();
+				openRedbag();//第二步，拆红包
+				
+				
+			}else if(className.equals("com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI")){
+				backToChatWindow();//第三步，拆开红包后返回聊天界面
 			}
 			break;
 
@@ -175,13 +179,18 @@ public class AsService extends AccessibilityService{
 					}
 				}
 			}
-//			for(AccessibilityNodeInfo node:nodeInfos){
-//				if(node.getParent()!=null&&node.getParent().getChildCount()==3){
-//					Log.i(TAG,"待拆红包:"+node.getParent().getChild(2));
-//					//Log.i(TAG, "点击拆开红包");
-//					node.getParent().getChild(2).performAction(AccessibilityNodeInfo.ACTION_CLICK);
-//				}
-//			}
+		}
+	}
+	
+	//第三步返回聊天界面
+	private void backToChatWindow(){
+		AccessibilityNodeInfo rootNode = getRootInActiveWindow();
+		if(rootNode!=null){
+			List<AccessibilityNodeInfo> list = rootNode.findAccessibilityNodeInfosByViewId("com.tencent.mm:id/gp");
+			for(AccessibilityNodeInfo node:list){
+				Log.i(TAG,"返回："+node);
+				node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+			}
 		}
 	}
 	
